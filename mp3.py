@@ -33,7 +33,6 @@ st.title("Texto a Voz")
 # Estado de la sesión para la traducción
 if 'oracion_traducida' not in st.session_state:
     st.session_state.oracion_traducida = ""
-
 if 'audio_file_path' not in st.session_state:
     st.session_state.audio_file_path = ""
 
@@ -46,12 +45,12 @@ if st.button("ir"):
         oracion_traducida = traducir_oracion(oracion_usuario)
         st.session_state.oracion_traducida = oracion_traducida
         st.session_state.audio_file_path = reproducir_audio(oracion_traducida, 'es')  # Usando español por defecto
-        st.audio(st.session_state.audio_file_path, format='audio/mp3')
-    else:
-        st.warning("Por favor, introduce una oración antes de traducir.")
 
-# Botón para descargar el archivo de audio
+# Reproducir el audio si existe
 if st.session_state.audio_file_path:
+    st.audio(st.session_state.audio_file_path, format='audio/mp3')
+
+    # Botón para descargar el archivo de audio
     with open(st.session_state.audio_file_path, 'rb') as audio_file:
         st.download_button(
             label="Descargar audio en MP3",
